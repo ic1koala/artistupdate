@@ -1,0 +1,313 @@
+:root {
+    /* Color Palette - Light Blue Base & Pop */
+    --primary-light: #E1F5FE; /* Very light blue background */
+    --primary-main: #29B6F6;  /* Vivid sky blue */
+    --primary-dark: #0288D1;  /* Deeper blue for text/accents */
+    
+    --accent-yellow: #FFEA00; /* Pop yellow */
+    --accent-orange: #FF9800; /* Pop orange */
+    --accent-pink: #FF4081;   /* Pop pink for TV tag */
+    --accent-green: #00E676;  /* Pop green for Stage tag */
+    --accent-purple: #D500F9; /* Pop purple for Mag tag */
+    
+    --text-main: #263238;
+    --text-muted: #546E7A;
+    --bg-white: #FFFFFF;
+    
+    --border-radius: 20px;
+    --shadow: 0 8px 24px rgba(41, 182, 246, 0.15);
+    --shadow-hover: 0 12px 32px rgba(41, 182, 246, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', sans-serif;
+    background-color: var(--primary-light);
+    color: var(--text-main);
+    line-height: 1.6;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255,255,255,0.8) 0%, transparent 20%);
+    background-attachment: fixed;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--primary-main), var(--primary-dark));
+    color: white;
+    text-align: center;
+    padding: 3rem 1rem;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+header::after {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: var(--accent-yellow);
+    border-radius: 50%;
+    opacity: 0.2;
+}
+
+header h1 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+header .subtitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    opacity: 0.9;
+}
+
+/* Main Layout */
+main {
+    max-width: 800px;
+    margin: -2rem auto 2rem;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 10;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+    margin: 2.5rem 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    border-bottom: 3px dashed var(--primary-main);
+    padding-bottom: 0.5rem;
+}
+
+/* Cards */
+.card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.card {
+    background: var(--bg-white);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 8px solid var(--primary-main);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card.highlight {
+    border-left: 8px solid var(--accent-orange);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    background: var(--primary-main);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.card.highlight .badge {
+    background: var(--accent-orange);
+}
+
+.period {
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.card-body h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+    color: var(--text-main);
+}
+
+.card-body .station {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+}
+
+.card-body .desc {
+    background: #F5F5F5;
+    padding: 0.8rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--primary-main);
+    border-radius: 2px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.4rem;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    background: var(--accent-yellow);
+    border: 4px solid var(--bg-white);
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1;
+}
+
+.timeline-date {
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.timeline-content {
+    background: var(--bg-white);
+    padding: 1.2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.timeline-content h4 {
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.info-box .timeline-content {
+    background: #FFF9C4;
+    border: 2px dashed var(--accent-orange);
+}
+
+.info-box::before {
+    background: var(--accent-orange);
+}
+
+/* Tags */
+.tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+}
+.tag.tv { background: var(--accent-pink); }
+.tag.mag { background: var(--accent-purple); }
+.tag.stage { background: var(--accent-green); }
+.tag.news { background: var(--primary-main); }
+
+/* Grid List for Archive */
+.grid-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    flex-direction: row;
+}
+
+.small-card {
+    background: var(--bg-white);
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(41, 182, 246, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.small-card .date {
+    font-weight: 800;
+    color: var(--primary-dark);
+    font-size: 0.9rem;
+}
+
+.small-card p {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 3rem;
+}
+
+/* Link Cards */
+.link-card {
+    text-decoration: none;
+    color: var(--text-main);
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.link-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    background-color: #F0FBFF;
+}
+
+.link-card .icon {
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
+}
+
+.link-card p {
+    font-weight: 700;
+}
+
+.link-card.x-link:hover {
+    background-color: #000;
+    color: #FFF;
+}
+
