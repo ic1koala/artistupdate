@@ -12,14 +12,15 @@
 </head>
 <body>
     <header>
+        <div class="update-badge">6月18日19時 更新!</div>
         <h1>🌟 Takuto Teranishi 🌟<br>Schedule 2026</h1>
         <p class="subtitle">timelesz 寺西拓人 出演情報まとめ</p>
     </header>
 
     <main>
         <!-- Season & Regulars Section -->
-        <section class="season-section">
-            <h2 class="section-title"><span class="icon">📅</span> レギュラー＆シーズン番組</h2>
+        <details class="category-details season-section">
+            <summary class="section-title"><span class="icon">📅</span> レギュラー＆シーズン番組</summary>
             <div class="card-container">
                 <!-- Last Note -->
                 <article class="card season-card highlight">
@@ -46,12 +47,25 @@
                         <p class="desc">timeleszの冠番組</p>
                     </div>
                 </article>
+
+                <!-- Live Tour -->
+                <article class="card season-card">
+                    <div class="card-header">
+                        <span class="badge" style="background-color: var(--accent-pink);">ライブ</span>
+                        <span class="period">5月中旬〜開催中</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>We're timelesz LIVE TOUR 2026<br>episode 2 MOMENTUM</h3>
+                        <p class="station">全国アリーナツアー</p>
+                        <p class="desc">timeleszとしての初参戦ツアー！</p>
+                    </div>
+                </article>
             </div>
-        </section>
+        </details>
 
         <!-- Specific Schedule Section -->
-        <section class="weekly-section">
-            <h2 class="section-title"><span class="icon">📌</span> 特番・雑誌・単発スケジュール</h2>
+        <details class="category-details weekly-section">
+            <summary class="section-title"><span class="icon">📌</span> 特番・雑誌・単発スケジュール</summary>
             <div class="timeline">
                 
                 <div class="timeline-item">
@@ -72,54 +86,63 @@
                     </div>
                 </div>
 
+                <div class="timeline-item">
+                    <div class="timeline-date">7月29日(水)</div>
+                    <div class="timeline-content">
+                        <span class="tag news">リリース</span>
+                        <h4>timelesz NEW Single『消えない花火』発売</h4>
+                        <p>グループ加入後、注目のニューシングル！</p>
+                    </div>
+                </div>
+
                 <div class="timeline-item info-box">
                     <div class="timeline-content">
                         <h4>🍂 秋以降（10月〜）の予定について</h4>
-                        <p>10月以降スタートの新規ドラマや大型舞台等の情報は現在未解禁です。レギュラー番組『タイムレスマン』やtimeleszとしてのグループ活動を中心に活動予定です。</p>
+                        <p>その他新しい情報をお待ちください！</p>
                     </div>
                 </div>
 
             </div>
-        </section>
+        </details>
 
         <!-- Past Schedule -->
-        <section class="archive-section">
-            <h2 class="section-title"><span class="icon">🕰️</span> 過去の主要スケジュール</h2>
+        <details class="category-details archive-section">
+            <summary class="section-title"><span class="icon">🕰️</span> 過去の主要スケジュール</summary>
             <div class="card-container grid-list">
                 <div class="small-card">
-                    <span class="date">4月28日</span>
+                    <span class="date">2026年4月28日</span>
                     <span class="tag mag">雑誌</span>
                     <p>『BAILA』6月号 特別版 表紙</p>
                 </div>
                 <div class="small-card">
-                    <span class="date">4月中旬</span>
+                    <span class="date">2026年4月中旬</span>
                     <span class="tag mag">雑誌</span>
                     <p>『Ray』5月号 増刊 表紙</p>
                 </div>
                 <div class="small-card">
-                    <span class="date">4月3日</span>
+                    <span class="date">2026年4月3日</span>
                     <span class="tag mag">雑誌</span>
                     <p>『日経エンタテインメント！』5月号 表紙</p>
                 </div>
                 <div class="small-card">
-                    <span class="date">4月</span>
+                    <span class="date">2026年4月</span>
                     <span class="tag stage">舞台</span>
                     <p>『AmberS -アンバース-』W主演</p>
                 </div>
                 <div class="small-card">
-                    <span class="date">2月15日</span>
+                    <span class="date">2026年2月15日</span>
                     <span class="tag news">ニュース</span>
                     <p>timeleszに新メンバーとして加入</p>
                 </div>
                 <div class="small-card">
-                    <span class="date">1月〜3月</span>
+                    <span class="date">2026年1月〜3月</span>
                     <span class="tag stage">舞台</span>
                     <p>『PRETTY WOMAN The Musical』</p>
                 </div>
             </div>
-        <!-- Links Section -->
-        <section class="links-section">
-            <h2 class="section-title"><span class="icon">🔗</span> 公式リンク＆情報収集</h2>
+        </details>        <!-- Links Section -->
+        <details class="category-details links-section">
+            <summary class="section-title"><span class="icon">🔗</span> 公式リンク＆情報収集</summary>
             <div class="card-container grid-list">
                 <a href="https://www.starto.jp/s/p/artist/114" target="_blank" class="small-card link-card">
                     <span class="icon">🌐</span>
@@ -134,7 +157,7 @@
                     <p>X（旧Twitter）<br>「寺西拓人」最新検索</p>
                 </a>
             </div>
-        </section>
+        </details>
     </main>
 
     <footer>

@@ -38,6 +38,20 @@ body {
 }
 
 /* Header */
+.update-badge {
+    display: inline-block;
+    background: var(--accent-yellow);
+    color: var(--text-main);
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    margin-bottom: 0.8rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 2;
+}
+
 header {
     background: linear-gradient(135deg, var(--primary-main), var(--primary-dark));
     color: white;
@@ -94,6 +108,34 @@ main {
     font-weight: 800;
     border-bottom: 3px dashed var(--primary-main);
     padding-bottom: 0.3rem;
+    cursor: pointer;
+    list-style: none;
+}
+
+.section-title::-webkit-details-marker {
+    display: none;
+}
+
+.section-title::after {
+    content: '▼';
+    font-size: 0.9rem;
+    margin-left: auto;
+    color: var(--primary-main);
+    transition: transform 0.3s ease;
+}
+
+.category-details[open] .section-title::after {
+    transform: rotate(180deg);
+}
+
+.category-details[open] .card-container,
+.category-details[open] .timeline {
+    animation: fadeInDown 0.4s ease forwards;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Cards */
