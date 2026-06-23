@@ -354,3 +354,117 @@ footer {
     color: #FFF;
 }
 
+/* ========================================
+   Schedule List Style (@teranishi_miu風)
+   ======================================== */
+.schedule-list {
+    padding: 0.5rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.schedule-group {
+    background: var(--bg-white);
+    border-radius: var(--border-radius);
+    padding: 0.8rem 1rem;
+    box-shadow: var(--shadow);
+}
+
+.schedule-group-label {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--primary-dark);
+    border-bottom: 2px solid var(--primary-main);
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.05em;
+}
+
+.schedule-row {
+    display: grid;
+    grid-template-columns: 3.2em 4.2em 1fr;
+    align-items: baseline;
+    gap: 0.3rem 0.6rem;
+    padding: 0.35rem 0.2rem;
+    border-bottom: 1px solid rgba(41,182,246,0.1);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    transition: background-color 0.15s;
+}
+
+.schedule-row:last-child {
+    border-bottom: none;
+}
+
+.schedule-row:hover {
+    background-color: rgba(41,182,246,0.06);
+    border-radius: 8px;
+}
+
+.schedule-date {
+    font-weight: 800;
+    color: var(--primary-dark);
+    white-space: nowrap;
+    font-size: 0.88rem;
+}
+
+.schedule-time {
+    color: var(--text-muted);
+    font-size: 0.83rem;
+    white-space: nowrap;
+}
+
+.schedule-name {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.schedule-note {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-left: 0.3rem;
+}
+
+.highlight-row {
+    background: linear-gradient(90deg, rgba(255,64,129,0.08), rgba(41,182,246,0.08));
+    border-radius: 10px;
+    border-bottom: none !important;
+}
+
+.highlight-row .schedule-date,
+.highlight-row .schedule-name {
+    color: var(--accent-pink);
+    font-weight: 900;
+}
+
+.tag-new {
+    display: inline-block;
+    background: var(--accent-pink);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 0.05rem 0.4rem;
+    border-radius: 6px;
+    vertical-align: middle;
+    margin-left: 0.3rem;
+    letter-spacing: 0.03em;
+}
+
+.past-info-note {
+    grid-template-columns: 1fr !important;
+    background: rgba(255, 234, 0, 0.15);
+    border-radius: 10px;
+    padding: 0.5rem 0.8rem;
+    margin-top: 0.3rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    border-bottom: none !important;
+}
+
+/* Footer link */
+footer a {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
