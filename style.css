@@ -468,3 +468,53 @@ footer a {
     color: var(--primary-dark);
     text-decoration: underline;
 }
+
+/* Month details inside Past Schedule */
+.archive-months {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.month-details {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba(41, 182, 246, 0.2);
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 12px rgba(41, 182, 246, 0.05);
+}
+
+.month-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.2rem 0;
+}
+
+.month-title::-webkit-details-marker {
+    display: none;
+}
+
+.month-title::after {
+    content: '▼';
+    font-size: 0.8rem;
+    margin-left: auto;
+    color: var(--primary-main);
+    transition: transform 0.2s ease;
+}
+
+.month-details[open] .month-title::after {
+    transform: rotate(180deg);
+}
+
+.month-details[open] .grid-list {
+    margin-top: 0.8rem;
+    animation: fadeInDown 0.3s ease forwards;
+}
