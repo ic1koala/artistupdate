@@ -552,3 +552,89 @@ footer a {
     margin-top: 0.3rem;
 }
 
+/* Yorisoi Almond Feature Button Banner on Top Page */
+.yorisoi-feature-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: linear-gradient(135deg, #FFFDF9 0%, #F7EFE4 60%, #E1F5FE 100%);
+    border: 3px solid #D49B54;
+    border-radius: 22px;
+    padding: 1rem 1.3rem;
+    margin-bottom: 1.5rem;
+    text-decoration: none;
+    color: var(--text-main);
+    box-shadow: 0 8px 24px rgba(122, 75, 58, 0.15);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.yorisoi-feature-banner:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(122, 75, 58, 0.25);
+}
+
+.yorisoi-banner-left {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.yorisoi-banner-icon {
+    font-size: 2.2rem;
+    background: linear-gradient(135deg, #29B6F6, #D49B54);
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(212, 155, 84, 0.3);
+}
+
+.yorisoi-banner-text .yorisoi-tag {
+    display: inline-block;
+    background: #7A4B3A;
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    margin-bottom: 0.25rem;
+}
+
+.yorisoi-banner-text h2 {
+    font-size: 1.12rem;
+    font-weight: 900;
+    color: #4E2F24;
+    margin-bottom: 0.15rem;
+}
+
+.yorisoi-banner-text p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.yorisoi-banner-cta {
+    background: linear-gradient(135deg, var(--primary-main), var(--primary-dark));
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 0.6rem 1.1rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(2, 136, 209, 0.28);
+}
+
+@media (max-width: 600px) {
+    .yorisoi-feature-banner {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: left;
+    }
+    .yorisoi-banner-cta {
+        text-align: center;
+    }
+}

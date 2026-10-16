@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>よりそいアーモンド全国マップ | Takuto Teranishi Update</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS (OpenStreetMap) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <style>
+        :root {
+            --almond-cream: #FFFDF9;
+            --almond-soft: #F7EFE4;
+            --almond-beige: #E6D2B5;
+            --almond-gold: #D49B54;
+            --almond-brown: #7A4B3A;
+            --almond-dark: #4E2F24;
+            accent-color: var(--primary-dark);
+        }
+
+        /* Header Customization for Yorisoi Page */
+        .yorisoi-header {
+            background: linear-gradient(135deg, var(--primary-main) 0%, #38BDF8 55%, var(--almond-gold) 100%);
+            padding-bottom: 1.8rem;
+        }
+
+        .top-nav-bar {
+            max-width: 800px;
+            margin: 0 auto 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        .back-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.85rem;
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            transition: transform 0.2s, background 0.2s;
+            border: 2px solid var(--almond-beige);
+        }
+
+        .back-home-btn:hover {
+            transform: translateY(-2px);
+            background: #FFFFFF;
+        }
+
+        .campaign-banner {
+            background: linear-gradient(135deg, var(--almond-cream), var(--almond-soft));
+            border: 2px solid var(--almond-beige);
+            border-left: 6px solid var(--almond-brown);
+            border-radius: 16px;
+            padding: 0.9rem 1.1rem;
+            margin-bottom: 1.2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .campaign-banner-text h2 {
+            font-size: 1rem;
+            color: var(--almond-brown);
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .campaign-banner-text p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .update-schedule-pill {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border: 1px solid var(--primary-main);
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        /* Stats Summary Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .stat-box {
+            background: var(--bg-white);
+            border: 2px solid var(--almond-beige);
+            border-radius: 14px;
+            padding: 0.55rem 0.4rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(122, 75, 58, 0.08);
+        }
+
+        .stat-box .stat-num {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            display: block;
+            line-height: 1.1;
+        }
+
+        .stat-box.almond-accent .stat-num {
+            color: var(--almond-brown);
+        }
+
+        .stat-box .stat-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+            display: block;
+        }
+
+        /* Filter & Prefecture Control Card */
+        .control-panel {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 1.1rem;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--almond-beige);
+            margin-bottom: 1.2rem;
+        }
+
+        .pref-selector-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .pref-selector-label {
+            font-weight: 800;
+            color: var(--almond-brown);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .pref-select-wrapper {
+            flex: 1;
+            min-width: 210px;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .pref-select {
+            flex: 1;
+            padding: 0.6rem 0.9rem;
+            font-family: inherit;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-main);
+            background-color: var(--almond-cream);
+            border: 2px solid var(--primary-main);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .pref-select:focus {
+            outline: none;
+            border-color: var(--primary-dark);
+            box-shadow: 0 0 0 3px rgba(41, 182, 246, 0.25);
+        }
+
+        .reset-map-btn {
+            background: var(--almond-soft);
+            color: var(--almond-brown);
+            border: 2px solid var(--almond-beige);
+            border-radius: 12px;
+            padding: 0.55rem 0.9rem;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .reset-map-btn:hover {
+            background: var(--almond-beige);
+            color: var(--almond-dark);
+        }
+
+        /* Filter Chips using modern :has(:checked) */
+        .filter-section-title {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: var(--almond-cream);
+            color: var(--text-main);
+            border: 2px solid var(--almond-beige);
+            padding: 0.38rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .filter-chip input[type="checkbox"] {
+            appearance: none;
+            width: 0.85rem;
+            height: 0.85rem;
+            border: 2px solid var(--almond-brown);
+            border-radius: 4px;
+            display: inline-grid;
+            place-content: center;
+            background: #fff;
+            margin: 0;
+        }
+
+        .filter-chip input[type="checkbox"]::before {
+            content: "✓";
+            font-size: 0.68rem;
+            font-weight: 900;
+            color: #fff;
+            transform: scale(0);
+            transition: transform 0.12s ease-in-out;
+        }
+
+        .filter-chip:hover {
+            border-color: var(--primary-main);
+            transform: translateY(-1px);
+        }
+
+        .filter-chip:has(:checked) {
+            background: linear-gradient(135deg, var(--primary-main), var(--primary-dark));
+            color: #FFFFFF;
+            border-color: var(--primary-dark);
+            box-shadow: 0 3px 10px rgba(2, 136, 209, 0.28);
+        }
+
+        .filter-chip:has(:checked) input[type="checkbox"] {
+            background: var(--almond-gold);
+            border-color: #FFFFFF;
+        }
+
+        .filter-chip:has(:checked) input[type="checkbox"]::before {
+            transform: scale(1);
+        }
+
+        /* Map Container & Legend */
+        .map-wrapper {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 0.9rem;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--almond-beige);
+            margin-bottom: 1.5rem;
+        }
+
+        .map-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem 1rem;
+            padding: 0.4rem 0.5rem 0.75rem;
+            border-bottom: 2px dashed var(--almond-beige);
+            margin-bottom: 0.75rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: var(--text-main);
+        }
+
+        .legend-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: #fff;
+            font-weight: 900;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2px solid #fff;
+        }
+
+        .legend-dot.hot { background: linear-gradient(135deg, #D49B54, #7A4B3A); }
+        .legend-dot.promo { background: linear-gradient(135deg, #29B6F6, #0288D1); }
+        .legend-dot.product { background: linear-gradient(135deg, #C89F78, #8D6E63); }
+        .legend-dot.ad { background: linear-gradient(135deg, #FF4081, #C51162); }
+
+        #yorisoi-map {
+            width: 100%;
+            height: 460px;
+            border-radius: 14px;
+            z-index: 1;
+            border: 2px solid var(--primary-light);
+        }
+
+        /* Custom Map Marker Pins */
+        .custom-yorisoi-pin {
+            background: transparent;
+            border: none;
+        }
+
+        .pin-bubble {
+            width: 34px;
+            height: 34px;
+            border-radius: 50% 50% 50% 4px;
+            transform: rotate(-45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2.5px solid #FFFFFF;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .pin-bubble span {
+            transform: rotate(45deg);
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .pin-bubble.hot {
+            background: linear-gradient(135deg, #F59E0B, #7A4B3A);
+            width: 38px;
+            height: 38px;
+        }
+
+        .pin-bubble.promo {
+            background: linear-gradient(135deg, #29B6F6, #0288D1);
+        }
+
+        .pin-bubble.product {
+            background: linear-gradient(135deg, #C89F78, #8D6E63);
+        }
+
+        .pin-bubble.ad {
+            background: linear-gradient(135deg, #FF4081, #C51162);
+            width: 38px;
+            height: 38px;
+        }
+
+        /* Leaflet Popup Customization */
+        .leaflet-popup-content-wrapper {
+            border-radius: 16px;
+            border: 2px solid var(--almond-beige);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+            font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', sans-serif;
+            padding: 2px;
+        }
+
+        .leaflet-popup-content {
+            margin: 12px 14px;
+            line-height: 1.45;
+            min-width: 250px;
+            max-width: 300px;
+        }
+
+        .popup-header-badges {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .popup-cat-badge {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 0.15rem 0.55rem;
+            border-radius: 999px;
+            color: #fff;
+        }
+
+        .popup-cat-badge.hot { background: var(--almond-brown); }
+        .popup-cat-badge.promo { background: var(--primary-dark); }
+        .popup-cat-badge.product { background: #8D6E63; }
+        .popup-cat-badge.ad { background: var(--accent-pink); }
+
+        .popup-area-badge {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--almond-brown);
+            background: var(--almond-soft);
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        .popup-title {
+            font-size: 1rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 0.25rem;
+        }
+
+        .popup-address {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.6rem;
+        }
+
+        .popup-check-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.25rem;
+            background: var(--almond-cream);
+            border: 1.5px solid var(--almond-beige);
+            border-radius: 10px;
+            padding: 0.45rem 0.3rem;
+            margin-bottom: 0.6rem;
+            text-align: center;
+        }
+
+        .popup-check-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.66rem;
+            font-weight: 800;
+            color: var(--text-muted);
+        }
+
+        .popup-check-item .status-icon {
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        .popup-check-item.active {
+            color: var(--almond-dark);
+        }
+
+        .popup-detail-text {
+            font-size: 0.8rem;
+            color: var(--text-main);
+            background: #F0F9FF;
+            border-left: 3px solid var(--primary-main);
+            padding: 0.45rem 0.6rem;
+            border-radius: 6px;
+            margin-bottom: 0.55rem;
+        }
+
+        .popup-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 0.55rem;
+        }
+
+        .popup-gmap-btn {
+            display: block;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-main), var(--primary-dark));
+            color: #FFFFFF !important;
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 0.45rem;
+            border-radius: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .popup-gmap-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Linked Store Cards List Below Map */
+        .list-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1.2rem 0 0.8rem;
+            border-bottom: 3px dashed var(--primary-main);
+            padding-bottom: 0.4rem;
+        }
+
+        .list-header-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .list-count-badge {
+            background: var(--almond-brown);
+            color: #FFFFFF;
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+        }
+
+        .spot-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1rem;
+        }
+
+        .spot-card {
+            background: var(--bg-white);
+            border-radius: 18px;
+            padding: 1rem 1.1rem;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--almond-beige);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .spot-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .spot-card.hot-card {
+            border-color: var(--almond-gold);
+            background: linear-gradient(to bottom, #FFFFFF, #FFFDF9);
+        }
+
+        .spot-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .spot-card h3 {
+            font-size: 1.02rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 0.25rem;
+        }
+
+        .spot-status-pills {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.3rem;
+            margin: 0.6rem 0;
+        }
+
+        .status-pill {
+            text-align: center;
+            padding: 0.3rem 0.2rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            background: #F1F5F9;
+            color: #94A3B8;
+            border: 1px solid #E2E8F0;
+        }
+
+        .status-pill.on {
+            background: var(--almond-soft);
+            color: var(--almond-dark);
+            border-color: var(--almond-gold);
+        }
+
+        .status-pill.on.sky {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border-color: var(--primary-main);
+        }
+
+        .spot-card-detail {
+            font-size: 0.83rem;
+            color: var(--text-main);
+            background: var(--almond-cream);
+            border-left: 3px solid var(--almond-gold);
+            padding: 0.5rem 0.65rem;
+            border-radius: 6px;
+            margin-bottom: 0.65rem;
+        }
+
+        .spot-card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .focus-map-btn {
+            flex: 1;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border: 1.5px solid var(--primary-main);
+            border-radius: 10px;
+            padding: 0.45rem 0.6rem;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .focus-map-btn:hover {
+            background: var(--primary-main);
+            color: #FFFFFF;
+        }
+
+        .card-gmap-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--almond-soft);
+            color: var(--almond-brown);
+            border: 1.5px solid var(--almond-beige);
+            border-radius: 10px;
+            padding: 0.45rem 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .card-gmap-link:hover {
+            background: var(--almond-beige);
+        }
+
+        .empty-state-box {
+            grid-column: 1 / -1;
+            background: var(--bg-white);
+            border: 2px dashed var(--almond-beige);
+            border-radius: 18px;
+            padding: 2rem 1.2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .empty-state-box h4 {
+            color: var(--almond-brown);
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+        }
+
+        @media (max-width: 600px) {
+            .stats-bar {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            #yorisoi-map {
+                height: 370px;
+            }
+            .spot-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="yorisoi-header">
+        <div class="top-nav-bar">
+            <a href="index.html" class="back-home-btn">◀ 出演情報トップへ戻る</a>
+            <div class="update-badge" id="yorisoi-update-badge" style="margin-bottom: 0;">10月16日22時 更新!</div>
+        </div>
+        <h1>🥛 よりそいアーモンド 全国マップ 🗺️</h1>
+        <p class="subtitle">キッコーマンソイフーズ × 寺西拓人 販売店・特設・付箋・パネル・チラシまとめ</p>
+    </header>
+
+    <main>
+        <!-- Campaign & Auto-update Info Banner -->
+        <section class="campaign-banner">
+            <div class="campaign-banner-text">
+                <h2>✨ 「ひと息つこっか。よりそいアーモンド」全国展開＆目撃マップ</h2>
+                <p>公式発表およびX（旧Twitter）での販売・特設コーナー・店員さん付箋POP・パネル・応募チラシ情報を集約しています。</p>
+            </div>
+            <span class="update-schedule-pill">🔄 毎日 7:00 / 19:00 自動更新中</span>
+        </section>
+
+        <!-- Summary Statistics -->
+        <section class="stats-bar" aria-label="集計ステータス">
+            <div class="stat-box">
+                <span class="stat-num" id="stat-total">0</span>
+                <span class="stat-label">📍 全国登録数</span>
+            </div>
+            <div class="stat-box almond-accent">
+                <span class="stat-num" id="stat-corner">0</span>
+                <span class="stat-label">🎪 特設コーナー</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-num" id="stat-fusen">0</span>
+                <span class="stat-label">📝 付箋POP</span>
+            </div>
+            <div class="stat-box almond-accent">
+                <span class="stat-num" id="stat-panel">0</span>
+                <span class="stat-label">🪧 パネル・広告</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-num" id="stat-flyer">0</span>
+                <span class="stat-label">📄 応募チラシ</span>
+            </div>
+        </section>
+
+        <!-- Control Panel: Prefecture Dropdown & Filter Chips -->
+        <section class="control-panel" aria-label="検索・絞り込みパネル">
+            <div class="pref-selector-row">
+                <label for="prefecture-select" class="pref-selector-label">🗾 都道府県を選択：</label>
+                <div class="pref-select-wrapper">
+                    <select id="prefecture-select" class="pref-select">
+                        <option value="ALL">🗾 全国すべて表示</option>
+                    </select>
+                    <button type="button" id="reset-btn" class="reset-map-btn">🔄 全国リセット</button>
+                </div>
+            </div>
+
+            <span class="filter-section-title">🔍 条件でピン＆リストを絞り込み（複数選択可）：</span>
+            <div class="filter-chips">
+                <label class="filter-chip">
+                    <input type="checkbox" name="spot-filter" value="product">
+                    🥛 製品販売あり
+                </label>
+                <label class="filter-chip">
+                    <input type="checkbox" name="spot-filter" value="corner">
+                    🎪 特設コーナーあり
+                </label>
+                <label class="filter-chip">
+                    <input type="checkbox" name="spot-filter" value="fusen">
+                    📝 付箋POPあり
+                </label>
+                <label class="filter-chip">
+                    <input type="checkbox" name="spot-filter" value="panel">
+                    🪧 パネル・POPあり
+                </label>
+                <label class="filter-chip">
+                    <input type="checkbox" name="spot-filter" value="flyer">
+                    📄 応募チラシあり
+                </label>
+                <label class="filter-chip">
+                    <input type="checkbox" name="spot-filter" value="ad">
+                    🚇 駅・大型広告
+                </label>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section class="map-wrapper" id="map-section">
+            <div class="map-legend">
+                <span class="legend-item"><span class="legend-dot hot">🌟</span> 激アツ店舗（特設・パネル・付箋等複数）</span>
+                <span class="legend-item"><span class="legend-dot promo">🩵</span> 販促物あり（パネル・付箋・チラシ確認）</span>
+                <span class="legend-item"><span class="legend-dot product">🥛</span> 製品販売確認店</span>
+                <span class="legend-item"><span class="legend-dot ad">🚇</span> 駅・大型交通広告</span>
+            </div>
+            <div id="yorisoi-map" role="region" aria-label="よりそいアーモンド全国マップ"></div>
+        </section>
+
+        <!-- Linked Spot Cards Section -->
+        <section>
+            <div class="list-header-bar">
+                <h2 class="list-header-title" id="list-heading">📋 表示中のスポット一覧（全国）</h2>
+                <span class="list-count-badge" id="list-count-badge">0件</span>
+            </div>
+            <div class="spot-cards-grid" id="spot-cards-container"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html" style="color: var(--primary-dark); font-weight: 800;">◀ Takuto Teranishi Update トップページへ戻る</a></p>
+        <p style="margin-top: 0.4rem;">Unofficial Fan Page - 情報は公式発表およびSNS上の目撃情報をもとに1日2回更新しています</p>
+    </footer>
+
+    <!-- Leaflet JS & Spot Data -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="yorisoi-data.js"></script>
+    <script>
+        (function() {
+            const spots = window.YORISOI_SPOTS || [];
+            const prefectures = window.PREFECTURES_DATA || [];
+
+            // 1. Update Badge & Summary Stats
+            const badgeEl = document.getElementById('yorisoi-update-badge');
+            if (badgeEl && window.YORISOI_UPDATE_TIME) {
+                badgeEl.textContent = window.YORISOI_UPDATE_TIME;
+            }
+
+            document.getElementById('stat-total').textContent = spots.length;
+            document.getElementById('stat-corner').textContent = spots.filter(s => s.status.corner).length;
+            document.getElementById('stat-fusen').textContent = spots.filter(s => s.status.fusen).length;
+            document.getElementById('stat-panel').textContent = spots.filter(s => s.status.panel).length;
+            document.getElementById('stat-flyer').textContent = spots.filter(s => s.status.flyer).length;
+
+            // 2. Populate 47 Prefectures Select Dropdown with Counts
+            const prefSelect = document.getElementById('prefecture-select');
+            const countByPref = {};
+            spots.forEach(s => {
+                countByPref[s.prefecture] = (countByPref[s.prefecture] || 0) + 1;
+            });
+
+            const totalOption = prefSelect.querySelector('option[value="ALL"]');
+            if (totalOption) {
+                totalOption.textContent = `🗾 全国すべて表示 (${spots.length}件)`;
+            }
+
+            const regions = ["北海道・東北", "関東", "中部", "近畿", "中国・四国", "九州・沖縄"];
+            regions.forEach(regionName => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = `■ ${regionName}`;
+                prefectures.filter(p => p.region === regionName).forEach(pref => {
+                    const count = countByPref[pref.name] || 0;
+                    const option = document.createElement('option');
+                    option.value = pref.name;
+                    option.textContent = count > 0 ? `${pref.name} (${count}件) ✨` : `${pref.name} (0件)`;
+                    optgroup.appendChild(option);
+                });
+                prefSelect.appendChild(optgroup);
+            });
+
+            // 3. Initialize OpenStreetMap via Leaflet
+            const DEFAULT_CENTER = [36.5, 137.8];
+            const DEFAULT_ZOOM = 5;
+            const map = L.map('yorisoi-map', {
+                scrollWheelZoom: true
+            }).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            const markersLayer = L.layerGroup().addTo(map);
+            const markerMap = {};
+
+            function getCategoryMeta(cat) {
+                switch (cat) {
+                    case 'hot':
+                        return { icon: '🌟', label: '激アツ店舗', className: 'hot' };
+                    case 'ad':
+                        return { icon: '🚇', label: '大型交通広告', className: 'ad' };
+                    case 'promo':
+                        return { icon: '🩵', label: '販促物あり', className: 'promo' };
+                    default:
+                        return { icon: '🥛', label: '製品販売確認', className: 'product' };
+                }
+            }
+
+            function createCustomIcon(cat) {
+                const meta = getCategoryMeta(cat);
+                return L.divIcon({
+                    className: 'custom-yorisoi-pin',
+                    html: `<div class="pin-bubble ${meta.className}"><span>${meta.icon}</span></div>`,
+                    iconSize: [38, 38],
+                    iconAnchor: [19, 36],
+                    popupAnchor: [0, -34]
+                });
+            }
+
+            function buildPopupHTML(spot) {
+                const meta = getCategoryMeta(spot.category);
+                const st = spot.status;
+                const gmapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(spot.name + ' ' + spot.address)}`;
+
+                return `
+                    <div>
+                        <div class="popup-header-badges">
+                            <span class="popup-cat-badge ${meta.className}">${meta.icon} ${meta.label}</span>
+                            <span class="popup-area-badge">📍 ${spot.prefecture} ${spot.city}</span>
+                        </div>
+                        <div class="popup-title">${spot.name}</div>
+                        <div class="popup-address">${spot.address}</div>
+                        <div class="popup-check-grid">
+                            <div class="popup-check-item ${st.product ? 'active' : ''}">
+                                <span>製品販売</span>
+                                <span class="status-icon">${st.product ? '⭕️' : '➖'}</span>
+                            </div>
+                            <div class="popup-check-item ${st.corner ? 'active' : ''}">
+                                <span>特設</span>
+                                <span class="status-icon">${st.corner ? '⭕️' : '➖'}</span>
+                            </div>
+                            <div class="popup-check-item ${st.fusen ? 'active' : ''}">
+                                <span>付箋</span>
+                                <span class="status-icon">${st.fusen ? '⭕️' : '➖'}</span>
+                            </div>
+                            <div class="popup-check-item ${st.panel ? 'active' : ''}">
+                                <span>パネル</span>
+                                <span class="status-icon">${st.panel ? '⭕️' : '➖'}</span>
+                            </div>
+                            <div class="popup-check-item ${st.flyer ? 'active' : ''}">
+                                <span>チラシ</span>
+                                <span class="status-icon">${st.flyer ? '⭕️' : '➖'}</span>
+                            </div>
+                        </div>
+                        <div class="popup-detail-text">
+                            <strong>📦 取扱：</strong>${spot.productTypes}<br>
+                            <strong>💬 メモ：</strong>${spot.detail}
+                        </div>
+                        <div class="popup-meta">
+                            <span>情報源: ${spot.source}</span>
+                            <span>確認日: ${spot.updatedAt}</span>
+                        </div>
+                        <a href="${gmapUrl}" target="_blank" rel="noopener noreferrer" class="popup-gmap-btn">🗺️ Googleマップで場所・経路を開く</a>
+                    </div>
+                `;
+            }
+
+            // 4. Filter & Render Logic
+            const filterCheckboxes = Array.from(document.querySelectorAll('input[name="spot-filter"]'));
+            const cardsContainer = document.getElementById('spot-cards-container');
+            const listHeading = document.getElementById('list-heading');
+            const listCountBadge = document.getElementById('list-count-badge');
+
+            function getFilteredSpots() {
+                const selectedPref = prefSelect.value;
+                const activeFilters = filterCheckboxes.filter(cb => cb.checked).map(cb => cb.value);
+
+                return spots.filter(spot => {
+                    if (selectedPref !== 'ALL' && spot.prefecture !== selectedPref) {
+                        return false;
+                    }
+                    for (const f of activeFilters) {
+                        if (f === 'ad') {
+                            if (spot.category !== 'ad') return false;
+                        } else if (!spot.status[f]) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+            }
+
+            function renderMapAndList(shouldZoomPrefecture) {
+                const selectedPref = prefSelect.value;
+                const filtered = getFilteredSpots();
+
+                // Update Markers
+                markersLayer.clearLayers();
+                Object.keys(markerMap).forEach(k => delete markerMap[k]);
+
+                filtered.forEach(spot => {
+                    const marker = L.marker([spot.lat, spot.lng], {
+                        icon: createCustomIcon(spot.category)
+                    });
+                    marker.bindPopup(buildPopupHTML(spot));
+                    marker.addTo(markersLayer);
+                    markerMap[spot.id] = marker;
+                });
+
+                // Zoom handling when prefecture is changed
+                if (shouldZoomPrefecture) {
+                    if (selectedPref === 'ALL') {
+                        map.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, { duration: 0.8 });
+                    } else {
+                        const prefInfo = prefectures.find(p => p.name === selectedPref);
+                        if (filtered.length === 1) {
+                            map.flyTo([filtered[0].lat, filtered[0].lng], 13, { duration: 0.8 });
+                        } else if (filtered.length > 1) {
+                            const bounds = L.latLngBounds(filtered.map(s => [s.lat, s.lng]));
+                            map.flyToBounds(bounds.pad(0.25), { duration: 0.8, maxZoom: 13 });
+                        } else if (prefInfo) {
+                            map.flyTo([prefInfo.lat, prefInfo.lng], prefInfo.zoom, { duration: 0.8 });
+                        }
+                    }
+                }
+
+                // Update List Header
+                listHeading.textContent = selectedPref === 'ALL'
+                    ? '📋 表示中のスポット一覧（全国）'
+                    : `📋 表示中のスポット一覧（${selectedPref}）`;
+                listCountBadge.textContent = `${filtered.length}件`;
+
+                // Render Cards
+                cardsContainer.innerHTML = '';
+                if (filtered.length === 0) {
+                    const emptyDiv = document.createElement('div');
+                    emptyDiv.className = 'empty-state-box';
+                    emptyDiv.innerHTML = `
+                        <h4>🔍 条件に一致するスポットが見つかりませんでした</h4>
+                        <p>${selectedPref !== 'ALL' ? `現在「${selectedPref}」での目撃情報はリサーチ中です。` : 'フィルター条件を緩めて再度お試しください。'}<br>公式情報やX（旧Twitter）での新しい目撃投稿があり次第、毎日7時・19時の定時更新で順次追加されます！</p>
+                    `;
+                    cardsContainer.appendChild(emptyDiv);
+                    return;
+                }
+
+                filtered.forEach(spot => {
+                    const meta = getCategoryMeta(spot.category);
+                    const st = spot.status;
+                    const gmapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(spot.name + ' ' + spot.address)}`;
+
+                    const card = document.createElement('article');
+                    card.className = `spot-card ${spot.category === 'hot' ? 'hot-card' : ''}`;
+                    card.innerHTML = `
+                        <div>
+                            <div class="spot-card-top">
+                                <div class="popup-header-badges">
+                                    <span class="popup-cat-badge ${meta.className}">${meta.icon} ${meta.label}</span>
+                                    <span class="popup-area-badge">📍 ${spot.prefecture} ${spot.city}</span>
+                                </div>
+                                <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700;">確認: ${spot.updatedAt}</span>
+                            </div>
+                            <h3>${spot.name}</h3>
+                            <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.3rem;">📍 ${spot.address}</p>
+
+                            <div class="spot-status-pills">
+                                <div class="status-pill ${st.product ? 'on' : ''}">🥛 製品<br>${st.product ? '⭕️あり' : '➖'}</div>
+                                <div class="status-pill ${st.corner ? 'on' : ''}">🎪 特設<br>${st.corner ? '⭕️あり' : '➖'}</div>
+                                <div class="status-pill ${st.fusen ? 'on sky' : ''}">📝 付箋<br>${st.fusen ? '⭕️あり' : '➖'}</div>
+                                <div class="status-pill ${st.panel ? 'on sky' : ''}">🪧 パネル<br>${st.panel ? '⭕️あり' : '➖'}</div>
+                                <div class="status-pill ${st.flyer ? 'on' : ''}">📄 チラシ<br>${st.flyer ? '⭕️あり' : '➖'}</div>
+                            </div>
+
+                            <div class="spot-card-detail">
+                                <strong>📦 取扱：</strong>${spot.productTypes}<br>
+                                <strong>💬 詳細：</strong>${spot.detail}
+                            </div>
+                        </div>
+
+                        <div class="spot-card-actions">
+                            <button type="button" class="focus-map-btn" data-spot-id="${spot.id}">📍 地図でこの場所を見る（吹き出し表示）</button>
+                            <a href="${gmapUrl}" target="_blank" rel="noopener noreferrer" class="card-gmap-link">🗺️ ナビ</a>
+                        </div>
+                    `;
+                    cardsContainer.appendChild(card);
+                });
+
+                // Attach click handlers for "Focus on Map" buttons
+                cardsContainer.querySelectorAll('.focus-map-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const spotId = btn.getAttribute('data-spot-id');
+                        const targetSpot = spots.find(s => s.id === spotId);
+                        const targetMarker = markerMap[spotId];
+                        if (targetSpot && targetMarker) {
+                            document.getElementById('map-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            map.flyTo([targetSpot.lat, targetSpot.lng], 15, { duration: 0.7 });
+                            setTimeout(() => {
+                                targetMarker.openPopup();
+                            }, 750);
+                        }
+                    });
+                });
+            }
+
+            // Event Listeners
+            prefSelect.addEventListener('change', () => renderMapAndList(true));
+            filterCheckboxes.forEach(cb => {
+                cb.addEventListener('change', () => renderMapAndList(false));
+            });
+
+            document.getElementById('reset-btn').addEventListener('click', () => {
+                prefSelect.value = 'ALL';
+                filterCheckboxes.forEach(cb => { cb.checked = false; });
+                renderMapAndList(true);
+            });
+
+            // Initial Render
+            renderMapAndList(false);
+        })();
+    </script>
+</body>
+</html>
