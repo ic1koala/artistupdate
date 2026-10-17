@@ -1,7 +1,7 @@
 // キッコーマン「よりそいアーモンド」全国販売・販促・広告情報データ
 // 毎日 7:00 / 19:00 の定時更新で公式情報・X（旧Twitter）の目撃投稿を元に自動更新されます
 
-window.YORISOI_UPDATE_TIME = "10月17日7時 更新!";
+window.YORISOI_UPDATE_TIME = "10月17日19時 更新!";
 
 // 全47都道府県の中心座標とデフォルトズームレベル
 window.PREFECTURES_DATA = [
@@ -86,9 +86,9 @@ window.YORISOI_SPOTS = [
             flyer: false
         },
         productTypes: "広告掲出（10/5〜10/18期間限定）",
-        detail: "寺西拓人さん『よりそいアーモンド』巨大シート広告！「ひといきつこっか」篇の大型ビジュアルが壁面いっぱいに掲出中。",
+        detail: "寺西拓人さん『よりそいアーモンド』巨大シート広告！「ひといきつこっか」篇の大型ビジュアルが壁面いっぱいに掲出中。【★明日10/18(日)で終了！ラスト1日】",
         source: "公式発表・X目撃情報",
-        updatedAt: "2026/10/16"
+        updatedAt: "2026/10/17"
     },
     {
         id: "tokyo-life-shibuya",
@@ -474,6 +474,28 @@ window.YORISOI_SPOTS = [
         source: "X目撃情報",
         updatedAt: "2026/10/14"
     },
+    {
+        id: "aichi-aeon-atsuta",
+        prefecture: "愛知県",
+        city: "名古屋市熱田区",
+        name: "イオン 熱田店（イオンモール熱田）",
+        chain: "イオン",
+        category: "hot",
+        lat: 35.1378,
+        lng: 136.9082,
+        address: "愛知県名古屋市熱田区六野1-2-11",
+        status: {
+            product: true,
+            corner: true,
+            fusen: true,
+            panel: true,
+            flyer: true
+        },
+        productTypes: "200ml / 1000ml 全種取り扱い",
+        detail: "イオンモール熱田でも特設コーナー開設確認！寺西拓人さんパネル、手書き付箋POP、ポーチ応募チラシが完備された激アツスポット！",
+        source: "X目撃情報",
+        updatedAt: "2026/10/17"
+    },
 
     // 【北海道】
     {
@@ -521,6 +543,28 @@ window.YORISOI_SPOTS = [
         detail: "売場に寺西拓人さんPOPパネルと手書き応援付箋、キャンペーン応募チラシを確認。",
         source: "X目撃情報",
         updatedAt: "2026/10/14"
+    },
+    {
+        id: "miyagi-aeon-natori",
+        prefecture: "宮城県",
+        city: "名取市",
+        name: "イオンスタイル 名取（イオンモール名取）",
+        chain: "イオン",
+        category: "hot",
+        lat: 38.1648,
+        lng: 140.8906,
+        address: "宮城県名取市杜せきのした5-3-1",
+        status: {
+            product: true,
+            corner: true,
+            fusen: true,
+            panel: true,
+            flyer: true
+        },
+        productTypes: "200ml / 1000ml 全種あり",
+        detail: "東北最大級の特設コーナー！寺西拓人さん特大ボードパネルとスタッフさん手書きPOP『てらにっし読者必見🩵』、応募ハガキも完備！",
+        source: "X目撃情報",
+        updatedAt: "2026/10/17"
     },
 
     // 【京都府】
@@ -639,5 +683,27 @@ window.YORISOI_SPOTS = [
         detail: "製品2種販売中。棚に応募チラシも設置されています。",
         source: "X目撃情報",
         updatedAt: "2026/10/13"
+    },
+    {
+        id: "fukuoka-youmetown-hakata",
+        prefecture: "福岡県",
+        city: "福岡市東区",
+        name: "ゆめタウン博多",
+        chain: "ゆめタウン",
+        category: "hot",
+        lat: 33.6152,
+        lng: 130.4147,
+        address: "福岡県福岡市東区東浜1-1-1",
+        status: {
+            product: true,
+            corner: true,
+            fusen: true,
+            panel: true,
+            flyer: true
+        },
+        productTypes: "200ml / 1000ml 全種取り扱い",
+        detail: "食品売場エンドに特設コーナー設置！寺西拓人さん大型POPパネル、手書き付箋コメント、キャンペーン応募ハガキが大量設置！",
+        source: "X目撃情報",
+        updatedAt: "2026/10/17"
     }
 ];
