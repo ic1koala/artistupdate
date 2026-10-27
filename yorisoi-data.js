@@ -1,7 +1,7 @@
 // キッコーマン「よりそいアーモンド」全国販売・販促・広告情報データ
 // 毎日 7:00 / 19:00 の定時更新で公式情報・X（旧Twitter）の目撃投稿を元に自動更新されます
 
-window.YORISOI_UPDATE_TIME = "10月27日19時 更新!";
+window.YORISOI_UPDATE_TIME = "10月28日7時 更新!";
 
 // 全47都道府県の中心座標とデフォルトズームレベル
 window.PREFECTURES_DATA = [
