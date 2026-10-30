@@ -1,7 +1,7 @@
 // キッコーマン「よりそいアーモンド」全国販売・販促・広告情報データ
 // 毎日 7:00 / 19:00 の定時更新で公式情報・X（旧Twitter）の目撃投稿を元に自動更新されます
 
-window.YORISOI_UPDATE_TIME = "10月30日7時 更新!";
+window.YORISOI_UPDATE_TIME = "10月30日19時 更新!";
 
 // 全47都道府県の中心座標とデフォルトズームレベル
 window.PREFECTURES_DATA = [
@@ -366,12 +366,12 @@ window.YORISOI_SPOTS = [
         id: "osaka-umeda-ad",
         prefecture: "大阪府",
         city: "大阪市北区",
-        name: "大阪梅田駅 周辺大型ビジョン・ボード広告",
+        name: "阪急大阪梅田駅 ジャンボセットA（大型ボード広告）",
         chain: "大型交通広告",
         category: "ad",
         lat: 34.7025,
         lng: 135.4979,
-        address: "大阪府大阪市北区梅田 地下コンコースエリア",
+        address: "大阪府大阪市北区角田町8-47 阪急百貨店側 1Fコンコース",
         status: {
             product: false,
             corner: false,
@@ -379,10 +379,10 @@ window.YORISOI_SPOTS = [
             panel: true,
             flyer: false
         },
-        productTypes: "広告掲出（10月中旬期間限定）",
-        detail: "東京・渋谷と並び大阪・梅田エリアでも『よりそいアーモンド』寺西拓人さんの大型ビジュアルが展開中！",
+        productTypes: "広告掲出（10/26〜11/1期間限定掲出中）",
+        detail: "阪急大阪梅田駅のジャンボセットAにて『よりそいアーモンド』寺西拓人さんの超特大ビジュアル広告が掲出中！【★11月1日(日)まで掲出！】",
         source: "公式発表・X目撃情報",
-        updatedAt: "2026/10/16"
+        updatedAt: "2026/10/30"
     },
     {
         id: "osaka-life-namba",
